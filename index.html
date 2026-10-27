@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şeftali Studio - Kapı Monitörü Panosu</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --aero-blue: #00a8ff;
+            --aero-green: #00d2d3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* 2000'ler Frutiger Aero / Bulutlu Doğa Arka Planı */
+            background: linear-gradient(135deg, #74b9ff 0%, #81ecec 50%, #55efc4 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ana Cam Pano (Glassmorphism) */
+        .dashboard-container {
+            width: 90vw;
+            height: 85vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            display: grid;
+            grid-template-rows: 60px 1fr 50px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Üst Menü / Başlık Çubuğu */
+        .header {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            color: #1e272e;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .logo-area span {
+            color: #ff4757;
+            text-shadow: 0 0 10px rgba(255,71,87,0.5);
+        }
+
+        .system-clock {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Orta İçerik Alanı */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .main-panel {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .main-panel h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slogan {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Aqua Düğme Efekti */
+        .aero-btn {
+            background: linear-gradient(to bottom, #00d2d3, #00a8ff);
+            border: 1px solid #fff;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4), inset 0 2px 2px rgba(255,255,255,0.6);
+            transition: all 0.2s ease;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .aero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 168, 255, 0.6), inset 0 2px 2px rgba(255,255,255,0.8);
+        }
+
+        .aero-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Yan Bilgi / Canlı Durum Paneli */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .widget {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .widget h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+
+        .widget p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Alt Durum Çubuğu */
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Gizli Easter Egg Kutusu (Modal) */
+        .easter-egg-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(20, 20, 30, 0.85);
+            backdrop-filter: blur(15px);
+            border: 2px solid #00d2d3;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 210, 211, 0.5);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            max-width: 400px;
+        }
+
+        .easter-egg-modal.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .easter-egg-modal h2 {
+            color: #00d2d3;
+            margin-bottom: 15px;
+        }
+
+        .easter-egg-modal p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #dfe6e9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Üst Bar -->
+        <div class="header">
+            <div class="logo-area" onclick="secretLogoClick()">
+                🍑 <span>Şeftali Studio</span> Kapı Monitörü v1.0
+            </div>
+            <div class="system-clock" id="liveClock">00:00:00</div>
+        </div>
+
+        <!-- Ana İçerik -->
+        <div class="content-grid">
+            <div class="main-panel">
+                <h1>HOŞ GELDİNİZ!</h1>
+                <p class="slogan">"Basitlikten Doğan Eğlence."</p>
+                <button class="aero-btn" onclick="triggerEasterEgg()">Zile Bas / Sürpriz Aç</button>
+            </div>
+
+            <div class="side-panel">
+                <div class="widget">
+                    <h3>Kapı Durumu</h3>
+                    <p>🟢 Bölge Güvenli & Aktif<br><small>Gelenler izleniyor...</small></p>
+                </div>
+                <div class="widget">
+                    <h3>Stüdyo Notu</h3>
+                    <p>Monitör nöbette! Şeftali kokulu günler dileriz. 🍑✨</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alt Bar -->
+        <div class="footer">
+            <span>© 2026 Şeftali Studio Topluluğu</span>
+            <span id="clickCounter">Gizli Sayaç: 0</span>
+        </div>
+    </div>
+
+    <!-- Easter Egg Popup -->
+    <div class="easter-egg-modal" id="easterEggModal">
+        <h2>🎉 Gizli Sürpriz Yakalandı!</h2>
+        <p id="easterEggText">Kapıdan geçen biri seni onayladı! Stüdyo gizli protokolü devrede.</p>
+        <button class="aero-btn" onclick="closeEasterEgg()">Kapat</button>
+    </div>
+
+    <script>
+        // Canlı Saat
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString('tr-TR');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Gizli Easter Egg Mantığı
+        let secretClicks = 0;
+        const modal = document.getElementById('easterEggModal');
+        const counterDisplay = document.getElementById('clickCounter');
+        
+        const easterEggMessages = [
+            "Kapıdan biri baktı ama çaktırmadı! 👀",
+            "Patates_14 sisteme başarıyla sızdı... 🥔✨",
+            "Frutiger Aero rüzgarları stüdyoyu sardı!",
+            "Dikkat: Bu ekrana çok bakmak bağımlılık yapar."
+        ];
+
+        function triggerEasterEgg() {
+            secretClicks++;
+            counterDisplay.innerText = `Gizli Sayaç: ${secretClicks}`;
+            
+            // Rastgele mesaj seç
+            const randomMsg = easterEggMessages[Math.floor(Math.random() * easterEggMessages.length)];
+            document.getElementById('easterEggText').innerText = randomMsg;
+
+            modal.classList.add('active');
+        }
+
+        function closeEasterEgg() {
+            modal.classList.remove('active');
+        }
+
+        let logoClicks = 0;
+        function secretLogoClick() {
+            logoClicks++;
+            if(logoClicks === 5) {
+                alert("Gizli Yönetici Modu Aktif! Şeftali ağaçları çiçek açtı 🌸🍑");
+                logoClicks = 0;
+            }
+        }
+    </script>
+</body>
+</html>
