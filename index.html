@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şeftali Studio - Kapı Monitörü Pro v4.0</title>
+    <title>Şeftali Studio - Kapı Monitörü Pro v5.0</title>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.25);
@@ -57,7 +57,112 @@
             z-index: 50;
         }
 
-        /* Üst Bar (Pano 1) */
+        /* PANO 3: 2000'ler Retro Tarayıcı (Internet Explorer / Netscape Vibe) */
+        .retro-browser-pano {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #c0c0c0; /* Klasik Win98 Gri */
+            z-index: 60;
+            padding: 10px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            color: #000;
+        }
+
+        .browser-window {
+            width: 100%;
+            height: 100%;
+            background: #ece9d8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .browser-titlebar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 6px 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .browser-toolbar {
+            background: #ece9d8;
+            border-bottom: 2px solid #808080;
+            padding: 6px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .browser-nav-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .browser-btn {
+            background: #ece9d8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .browser-btn:active { border-color: #808080 #fff #fff #808080; }
+
+        .browser-address-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .address-input {
+            flex-grow: 1;
+            background: #fff;
+            border: 2px inset #808080;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .browser-content {
+            flex-grow: 1;
+            background: #ffffff;
+            border: 2px inset #808080;
+            margin: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .retro-site-header {
+            border-bottom: 3px double #000080;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .retro-marquee {
+            background: #000080;
+            color: #ffff00;
+            padding: 5px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        /* Ortak Üst Bar (Pano 1) */
         .header {
             background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
             border-bottom: 1px solid var(--glass-border);
@@ -69,340 +174,65 @@
             text-shadow: 0 1px 1px rgba(255,255,255,0.8);
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
         .logo-area span { color: #ff4757; }
+        .header-right { display: flex; align-items: center; gap: 20px; font-size: 0.95rem; font-weight: 600; }
+        .weather-widget-header { background: rgba(255,255,255,0.4); padding: 5px 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.6); }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .weather-widget-header {
-            background: rgba(255,255,255,0.4);
-            padding: 5px 12px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            padding: 20px;
-            overflow: hidden;
-        }
-
-        .main-panel {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 20px; overflow: hidden; }
+        .main-panel { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 15px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; position: relative; }
         .center-welcome h1 { font-size: 2.5rem; margin-bottom: 5px; }
         .slogan { font-size: 1.1rem; margin-bottom: 20px; font-style: italic; opacity: 0.9; }
 
         /* Terminal Penceresi */
-        .terminal-window {
-            width: 100%;
-            background: rgba(15, 15, 25, 0.85);
-            border: 2px solid #00d2d3;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .terminal-titlebar {
-            background: linear-gradient(to right, #00d2d3, #00a8ff);
-            color: #000;
-            padding: 5px 10px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Courier New', monospace;
-        }
-
-        .term-btn {
-            background: rgba(255,255,255,0.8);
-            border: 1px solid #000;
-            width: 16px;
-            height: 16px;
-            font-size: 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .terminal-body {
-            padding: 10px;
-            text-align: left;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            color: #00ffcc;
-            height: 130px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-
-        .terminal-logs {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            overflow-y: auto;
-            max-height: 90px;
-        }
-
-        .terminal-input-line {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-            border-top: 1px dashed rgba(0,210,211,0.3);
-            padding-top: 4px;
-        }
-
-        .terminal-input-line input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            outline: none;
-            font-family: 'Courier New', Courier, monospace;
-            width: 100%;
-            font-size: 0.85rem;
-        }
+        .terminal-window { width: 100%; background: rgba(15, 15, 25, 0.85); border: 2px solid #00d2d3; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; }
+        .terminal-titlebar { background: linear-gradient(to right, #00d2d3, #00a8ff); color: #000; padding: 5px 10px; font-weight: bold; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; }
+        .term-btn { background: rgba(255,255,255,0.8); border: 1px solid #000; width: 16px; height: 16px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
+        .terminal-body { padding: 10px; text-align: left; font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; color: #00ffcc; height: 130px; display: flex; flex-direction: column; justify-content: flex-end; }
+        .terminal-logs { display: flex; flex-direction: column; gap: 3px; overflow-y: auto; max-height: 90px; }
+        .terminal-input-line { display: flex; gap: 5px; margin-top: 5px; border-top: 1px dashed rgba(0,210,211,0.3); padding-top: 4px; }
+        .terminal-input-line input { background: transparent; border: none; color: #fff; outline: none; font-family: 'Courier New', Courier, monospace; width: 100%; font-size: 0.85rem; }
 
         .side-panel { display: flex; flex-direction: column; gap: 15px; }
-
-        .widget {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 12px;
-            backdrop-filter: blur(5px);
-        }
-
+        .widget { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; padding: 12px; backdrop-filter: blur(5px); }
         .widget h3 { font-size: 0.95rem; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 
-        .winamp-skin {
-            background: linear-gradient(to bottom, #2d3436, #1e272e);
-            border: 2px solid #636e72;
-            border-radius: 6px;
-            padding: 10px;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
+        .winamp-skin { background: linear-gradient(to bottom, #2d3436, #1e272e); border: 2px solid #636e72; border-radius: 6px; padding: 10px; color: #00ff00; font-family: 'Courier New', Courier, monospace; }
         .winamp-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #b2bec3; margin-bottom: 5px; border-bottom: 1px solid #485460; padding-bottom: 3px; }
         .winamp-display { background: #000; padding: 6px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 8px; border: 1px inset #636e72; }
         .winamp-controls { display: flex; gap: 6px; }
         .winamp-btn { background: linear-gradient(to bottom, #b2bec3, #636e72); border: 1px solid #fff; color: #fff; padding: 3px 10px; font-size: 0.8rem; font-weight: bold; border-radius: 3px; cursor: pointer; }
 
-        .aero-btn {
-            background: linear-gradient(to bottom, #00d2d3, #00a8ff);
-            border: 1px solid #fff;
-            color: white;
-            padding: 10px 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4);
-        }
+        .aero-btn { background: linear-gradient(to bottom, #00d2d3, #00a8ff); border: 1px solid #fff; color: white; padding: 10px 25px; font-size: 1rem; font-weight: bold; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4); }
         .aero-btn:hover { transform: scale(1.03); }
 
-        .footer {
-            background: rgba(0, 0, 0, 0.25);
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            font-size: 0.9rem;
-        }
+        .footer { background: rgba(0, 0, 0, 0.25); border-top: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-size: 0.9rem; }
 
-        /* Windows XP Masaüstü İkonları */
-        .xp-icons-grid {
-            padding: 25px;
-            display: grid;
-            grid-template-columns: repeat(2, 90px);
-            gap: 20px;
-        }
-
-        .xp-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            font-size: 0.85rem;
-            gap: 5px;
-        }
-        .xp-icon span:first-child { font-size: 2.5rem; }
+        /* XP Masaüstü */
+        .xp-icons-grid { padding: 25px; display: grid; grid-template-columns: repeat(3, 90px); gap: 20px; }
+        .xp-icon { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-size: 0.85rem; gap: 5px; }
+        .xp-icon span:first-child { font-size: 2.2rem; }
         .xp-icon:hover { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 5px; }
 
-        /* XP Görev Çubuğu ve Başlat */
-        .xp-taskbar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100vw;
-            height: 38px;
-            background: linear-gradient(to bottom, #245ded 0%, #1e3fae 100%);
-            border-top: 2px solid #5a85ee;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-right: 15px;
-            z-index: 100;
-        }
+        .xp-taskbar { position: absolute; bottom: 0; left: 0; width: 100vw; height: 38px; background: linear-gradient(to bottom, #245ded 0%, #1e3fae 100%); border-top: 2px solid #5a85ee; display: flex; align-items: center; justify-content: space-between; padding-right: 15px; z-index: 100; }
+        .xp-start-btn { background: linear-gradient(to bottom, #3c893c 0%, #286328 50%, #1e4d1e 100%); border: 1px solid #72cc72; border-top-right-radius: 12px; border-bottom-right-radius: 12px; color: white; font-weight: bold; font-style: italic; padding: 4px 18px 4px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.95rem; }
+        .xp-clock { color: white; font-size: 0.85rem; font-family: 'Tahoma', sans-serif; background: rgba(0,0,0,0.15); padding: 4px 12px; border-left: 1px solid rgba(255,255,255,0.2); }
 
-        .xp-start-btn {
-            background: linear-gradient(to bottom, #3c893c 0%, #286328 50%, #1e4d1e 100%);
-            border: 1px solid #72cc72;
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
-            color: white;
-            font-weight: bold;
-            font-style: italic;
-            padding: 4px 18px 4px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .xp-clock {
-            color: white;
-            font-size: 0.85rem;
-            font-family: 'Tahoma', sans-serif;
-            background: rgba(0,0,0,0.15);
-            padding: 4px 12px;
-            border-left: 1px solid rgba(255,255,255,0.2);
-        }
-
-        /* XP Başlat Menüsü */
-        .xp-start-menu {
-            position: absolute;
-            bottom: 38px;
-            left: 0;
-            width: 250px;
-            background: #ffffff;
-            border: 2px solid #0055ea;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            box-shadow: 3px -3px 10px rgba(0,0,0,0.4);
-            display: none;
-            z-index: 200;
-            color: #000;
-        }
-
-        .xp-menu-header {
-            background: linear-gradient(to right, #0055ea, #3c7bfd);
-            color: white;
-            padding: 10px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .xp-start-menu { position: absolute; bottom: 38px; left: 0; width: 250px; background: #ffffff; border: 2px solid #0055ea; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 3px -3px 10px rgba(0,0,0,0.4); display: none; z-index: 200; color: #000; }
+        .xp-menu-header { background: linear-gradient(to right, #0055ea, #3c7bfd); color: white; padding: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .xp-menu-items { padding: 8px 0; display: flex; flex-direction: column; }
         .xp-menu-item { padding: 8px 15px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 10px; }
         .xp-menu-item:hover { background: #2f65f6; color: white; }
         .xp-menu-divider { height: 1px; background: #d4d0c8; margin: 5px 10px; }
 
-        /* XP Pencereler (Uygulamalar için Ortak Stil) */
-        .xp-window {
-            position: absolute;
-            top: 15%;
-            left: 20%;
-            width: 380px;
-            background: #ece9d8;
-            border: 2px solid #0055ea;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-            box-shadow: 4px 4px 15px rgba(0,0,0,0.5);
-            display: none;
-            z-index: 150;
-            font-family: 'Tahoma', sans-serif;
-            color: #000;
-        }
-
-        .xp-window-titlebar {
-            background: linear-gradient(to right, #0055ea, #6984eec4);
-            color: white;
-            padding: 5px 10px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .xp-window-close {
-            background: #e81123;
-            color: white;
-            border: 1px solid #fff;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 2px;
-        }
-
-        .xp-window-body {
-            padding: 15px;
-            font-size: 0.9rem;
-            background: #ece9d8;
-            max-height: 300px;
-            overflow-y: auto;
-        }
+        /* XP Pencereler */
+        .xp-window { position: absolute; top: 15%; left: 20%; width: 380px; background: #ece9d8; border: 2px solid #0055ea; border-top-left-radius: 6px; border-top-right-radius: 6px; box-shadow: 4px 4px 15px rgba(0,0,0,0.5); display: none; z-index: 150; font-family: 'Tahoma', sans-serif; color: #000; }
+        .xp-window-titlebar { background: linear-gradient(to right, #0055ea, #6984eec4); color: white; padding: 5px 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+        .xp-window-close { background: #e81123; color: white; border: 1px solid #fff; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 2px; }
+        .xp-window-body { padding: 15px; font-size: 0.9rem; background: #ece9d8; max-height: 300px; overflow-y: auto; }
 
         /* Ayarlar Penceresi */
-        .settings-modal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 420px;
-            background: #ece9d8;
-            border: 2px solid #0055ea;
-            border-radius: 6px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            display: none;
-            z-index: 300;
-            color: #000;
-            font-family: 'Tahoma', sans-serif;
-        }
+        .settings-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 440px; background: #ece9d8; border: 2px solid #0055ea; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; z-index: 300; color: #000; font-family: 'Tahoma', sans-serif; }
         .settings-header { background: linear-gradient(to right, #0055ea, #6984eec4); color: white; padding: 6px 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
         .settings-body { padding: 20px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 15px; }
         .settings-option { background: #fff; border: 1px solid #7f7f7f; padding: 12px; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -415,7 +245,7 @@
     <div class="dashboard-container" id="pano1">
         <div class="header">
             <div class="logo-area" onclick="openSettings()">
-                🍑 <span>Şeftali Studio</span> Kapı Monitörü v4.0
+                🍑 <span>Şeftali Studio</span> Kapı Monitörü v5.0
             </div>
             <div class="header-right">
                 <div class="weather-widget-header" id="weatherDisplay">🌤️ Denizli 21°C</div>
@@ -438,12 +268,12 @@
                     </div>
                     <div class="terminal-body">
                         <div class="terminal-logs" id="terminalLogs">
-                            <div>> [SİSTEM] v4.0 Başlatıldı.</div>
+                            <div>> [SİSTEM] v5.0 Başlatıldı.</div>
                             <div>> [BİLGİ] Pano değişimi için 'ayarlar' yazın!</div>
                         </div>
                         <div class="terminal-input-line">
                             <span>C:\></span>
-                            <input type="text" id="terminalInput" placeholder="Komut yazın (ayarlar, pano2)..." onkeydown="handleTerminalCommand(event)">
+                            <input type="text" id="terminalInput" placeholder="Komut yazın (ayarlar, pano2, pano3)..." onkeydown="handleTerminalCommand(event)">
                         </div>
                     </div>
                 </div>
@@ -481,60 +311,87 @@
     <!-- PANO 2: Windows XP Masaüstü -->
     <div class="xp-desktop" id="pano2">
         <div class="xp-icons-grid">
-            <div class="xp-icon" onclick="openXpApp('clockApp')">
-                <span>⏰</span>
-                <span>Saat & Hava</span>
-            </div>
-            <div class="xp-icon" onclick="openXpApp('radioApp')">
-                <span>📻</span>
-                <span>Winamp Radyo</span>
-            </div>
-            <div class="xp-icon" onclick="openXpApp('gameApp')">
-                <span>🎮</span>
-                <span>Şeftali Oyunu</span>
-            </div>
-            <div class="xp-icon" onclick="openXpApp('newsApp')">
-                <span>📰</span>
-                <span>Son Dakika</span>
-            </div>
-            <div class="xp-icon" onclick="openXpApp('cmdApp')">
-                <span>💻</span>
-                <span>CMD Komut</span>
-            </div>
-            <div class="xp-icon" onclick="switchToPano(1)">
-                <span>🍑</span>
-                <span>Pano 1'e Dön</span>
-            </div>
+            <div class="xp-icon" onclick="openXpApp('clockApp')"><span>⏰</span><span>Saat & Hava</span></div>
+            <div class="xp-icon" onclick="openXpApp('radioApp')"><span>📻</span><span>Radyo</span></div>
+            <div class="xp-icon" onclick="openXpApp('gameApp')"><span>🎮</span><span>Şeftali Oyunu</span></div>
+            <div class="xp-icon" onclick="openXpApp('newsApp')"><span>📰</span><span>Son Dakika</span></div>
+            <div class="xp-icon" onclick="openXpApp('cmdApp')"><span>💻</span><span>CMD Komut</span></div>
+            <div class="xp-icon" onclick="switchToPano(3)"><span>🌐</span><span>Retro Tarayıcı</span></div>
+            <div class="xp-icon" onclick="switchToPano(1)"><span>🍑</span><span>Pano 1'e Dön</span></div>
         </div>
 
-        <!-- XP Görev Çubuğu -->
         <div class="xp-taskbar">
-            <div class="xp-start-btn" onclick="toggleXpStartMenu()">
-                <span>❖</span> Başlat
-            </div>
+            <div class="xp-start-btn" onclick="toggleXpStartMenu()"><span>❖</span> Başlat</div>
             <div class="xp-clock" id="xpClock">00:00</div>
         </div>
 
-        <!-- XP Başlat Menüsü -->
         <div class="xp-start-menu" id="xpStartMenu">
-            <div class="xp-menu-header">
-                <span>🍑</span>
-                <span>Patates_14</span>
-            </div>
+            <div class="xp-menu-header"><span>🍑</span><span>Patates_14</span></div>
             <div class="xp-menu-items">
                 <div class="xp-menu-item" onclick="openXpApp('clockApp'); toggleXpStartMenu();"><span>⏰</span> Saat Uygulaması</div>
-                <div class="xp-menu-item" onclick="openXpApp('radioApp'); toggleXpStartMenu();"><span>📻</span> Radyo (Müzik)</div>
+                <div class="xp-menu-item" onclick="openXpApp('radioApp'); toggleXpStartMenu();"><span>📻</span> Radyo Çalar</div>
                 <div class="xp-menu-item" onclick="openXpApp('gameApp'); toggleXpStartMenu();"><span>🎮</span> Easter Egg Oyunu</div>
                 <div class="xp-menu-item" onclick="openXpApp('newsApp'); toggleXpStartMenu();"><span>📰</span> Şeftali Haberleri</div>
                 <div class="xp-menu-item" onclick="openXpApp('cmdApp'); toggleXpStartMenu();"><span>💻</span> CMD Komut İstemi</div>
                 <div class="xp-menu-divider"></div>
+                <div class="xp-menu-item" onclick="switchToPano(3)"><span>🌐</span> Pano 3 (Retro Tarayıcı)</div>
                 <div class="xp-menu-item" onclick="switchToPano(1)"><span>🪟</span> Pano 1 (Frutiger Aero)</div>
             </div>
         </div>
     </div>
 
 
-    <!-- 1. SAAT UYGULAMASI PENCERESİ -->
+    <!-- PANO 3: 2000'LER RETRO TARAYICI (IE6 / Netscape Vibe) -->
+    <div class="retro-browser-pano" id="pano3">
+        <div class="browser-window">
+            <div class="browser-titlebar">
+                <span>Internet Explorer - http://www.seftalistudio.2000s/portal.html</span>
+                <div style="display:flex; gap:3px;">
+                    <button class="browser-btn" onclick="switchToPano(1)" title="Ana Panoya Dön">X</button>
+                </div>
+            </div>
+            <div class="browser-toolbar">
+                <div class="browser-nav-row">
+                    <button class="browser-btn" onclick="switchToPano(1)">⬅ Geri</button>
+                    <button class="browser-btn" onclick="alert('Ana sayfa güncel!')">🏠 Ana Sayfa</button>
+                    <button class="browser-btn" onclick="openSettings()">⚙️ Ayarlar</button>
+                    <button class="browser-btn" onclick="switchToPano(2)">🪟 XP Masaüstü</button>
+                </div>
+                <div class="browser-address-bar">
+                    <span>Adres:</span>
+                    <input type="text" class="address-input" value="http://www.seftali-studio.github.io/kapı-monitörü" readonly>
+                </div>
+            </div>
+            <div class="browser-content">
+                <div class="retro-site-header">
+                    <h1 style="color: #000080; font-family: 'Times New Roman', serif; font-size: 2.2rem;">✨ Şeftali Studio Resmî Web Portalı ✨</h1>
+                    <i style="color: #666;">"Basitlikten Doğan Eğlence" - Kurulum Tarihi: 2020</i>
+                </div>
+                
+                <div class="retro-marquee">
+                    📢 HOŞ GELDİNİZ! KAPININ ÖNÜNDEKİ MONİTÖRÜNÜZ BAŞARIYLA AKTİFTİR. 🍑 PATATES_14 YÖNETİMİNDE YENİ SEZON BAŞLADI!
+                </div>
+
+                <div style="background: #ffffcc; border: 2px dashed #ff0000; padding: 15px; margin-bottom: 20px; text-align: left;">
+                    <h3 style="color: #cc0000; margin-bottom: 5px;">🚧 YAPIM AŞAMASINDA (Under Construction) 🚧</h3>
+                    <p style="font-size: 0.9rem;">Bu web sitesi Netscape Navigator 4.0 ve Internet Explorer 6.0 için optimize edilmiştir. Ziyaretçi sayacı aktif olarak çalışmaktadır.</p>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="alert('Ziyaretçi Sayısı: 1,453 kişi kapıdan geçti!')">📊 Ziyaretçi Sayacı</button>
+                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="switchToPano(1)">🏠 Frutiger Aero Pano</button>
+                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="switchToPano(2)">🪟 XP Masaüstü</button>
+                </div>
+
+                <div style="border-top: 1px solid #808080; padding-top: 10px; font-size: 0.8rem; color: #449000;">
+                    © 2026 Şeftali Studio Topluluğu. Tüm hakları saklıdır.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- XP UYGULAMA PENCERELERİ -->
     <div class="xp-window" id="clockApp" style="top: 10%; left: 15%;">
         <div class="xp-window-titlebar"><span>Zaman ve Hava Durumu</span><div class="xp-window-close" onclick="closeXpApp('clockApp')">X</div></div>
         <div class="xp-window-body" style="text-align: center;">
@@ -542,11 +399,9 @@
             <h1 id="appFullTime" style="font-size: 2.5rem; margin-bottom: 15px;">00:00:00</h1>
             <p>🌤️ <b>Konum:</b> Denizli / Merkez</p>
             <p>🌡️ <b>Sıcaklık:</b> 21°C (Parçalı Bulutlu)</p>
-            <p style="margin-top:15px; font-size:0.8rem; color:#666;">Sistem saati tamamen senkronize çalışıyor.</p>
         </div>
     </div>
 
-    <!-- 2. RADYO UYGULAMASI PENCERESİ -->
     <div class="xp-window" id="radioApp" style="top: 15%; left: 30%;">
         <div class="xp-window-titlebar"><span>Winamp Radyo Çalar</span><div class="xp-window-close" onclick="closeXpApp('radioApp')">X</div></div>
         <div class="xp-window-body" style="text-align: center;">
@@ -559,11 +414,9 @@
                     <button class="winamp-btn" onclick="nextTrack()">⏭ Değiştir</button>
                 </div>
             </div>
-            <p style="font-size:0.8rem; color:#555;">Web Audio API ile kesintisiz nostalji.</p>
         </div>
     </div>
 
-    <!-- 3. EASTER EGG OYUN UYGULAMASI -->
     <div class="xp-window" id="gameApp" style="top: 20%; left: 45%;">
         <div class="xp-window-titlebar"><span>Şeftali Avı - Mini Oyun</span><div class="xp-window-close" onclick="closeXpApp('gameApp')">X</div></div>
         <div class="xp-window-body" style="text-align: center;">
@@ -573,25 +426,22 @@
         </div>
     </div>
 
-    <!-- 4. HABERLER UYGULAMASI -->
     <div class="xp-window" id="newsApp" style="top: 25%; left: 25%;">
-        <div class="xp-window-titlebar"><span>Şeftali Studio - Son Dakika Haberleri</span><div class="xp-window-close" onclick="closeXpApp('newsApp')">X</div></div>
+        <div class="xp-window-titlebar"><span>Şeftali Studio - Son Dakika</span><div class="xp-window-close" onclick="closeXpApp('newsApp')">X</div></div>
         <div class="xp-window-body">
-            <h4 style="color:#0055ea; margin-bottom:5px;">🚨 Son Dakika: Kapı Monitörü Devrede!</h4>
-            <p style="font-size:0.85rem; margin-bottom:10px;">Şeftali Studio girişindeki kapı monitörü v4.0 sürümüne güncellendi. Gelenler artık yapay zeka denetiminde izleniyor.</p>
+            <h4 style="color:#0055ea; margin-bottom:5px;">🚨 Son Dakika: Pano v5.0 Yayında!</h4>
+            <p style="font-size:0.85rem; margin-bottom:10px;">Retro Tarayıcı modu eklendi. Artık Netscape/IE6 nostaljisi kapıda yaşanıyor.</p>
             <hr style="border:0; border-top:1px solid #ccc; margin:10px 0;">
-            <h4 style="color:#0055ea; margin-bottom:5px;">🥔 Patates_14 Açıklaması</h4>
-            <p style="font-size:0.85rem;">"Basitlikten doğan eğlence felsefemizle yeni sezon projelerimiz hız kesmeden devam ediyor."</p>
+            <h4 style="color:#0055ea; margin-bottom:5px;">🥔 Patates_14 Notu</h4>
+            <p style="font-size:0.85rem;">"Basitlikten doğan eğlence."</p>
         </div>
     </div>
 
-    <!-- 5. CMD UYGULAMASI -->
     <div class="xp-window" id="cmdApp" style="top: 18%; left: 35%;">
         <div class="xp-window-titlebar"><span>Komut İstemi (CMD)</span><div class="xp-window-close" onclick="closeXpApp('cmdApp')">X</div></div>
         <div class="xp-window-body" style="background: #000; color: #00ffcc; font-family: 'Courier New', monospace; height: 220px;">
             <div id="cmdLogs" style="display:flex; flex-direction:column; gap:3px; max-height:160px; overflow-y:auto; font-size:0.8rem;">
                 <div>Microsoft Windows XP [Version 5.1.2600]</div>
-                <div>(C) Copyright 1985-2006 Microsoft Corp.</div>
                 <div>> Şeftali Studio CMD konsolu hazır. 'yardim' yazın.</div>
             </div>
             <div style="display:flex; gap:5px; margin-top:8px; border-top:1px dashed #00ffcc; padding-top:4px;">
@@ -624,6 +474,13 @@
                 </div>
                 <span>➡️</span>
             </div>
+            <div class="settings-option" onclick="switchToPano(3); closeSettings();">
+                <div>
+                    <strong>3. Pano: 2000'ler Retro Tarayıcı</strong>
+                    <p style="font-size:0.8rem; color:#555;">Internet Explorer 6 temalı web portalı ve sayaç.</p>
+                </div>
+                <span>➡️</span>
+            </div>
         </div>
     </div>
 
@@ -644,28 +501,24 @@
         setInterval(updateAllClocks, 1000);
         updateAllClocks();
 
-        // Pano Değiştirici
+        // Pano Değiştirici (1, 2, 3)
         function switchToPano(panoNumber) {
             const p1 = document.getElementById('pano1');
             const p2 = document.getElementById('pano2');
-            if(panoNumber === 1) {
-                p2.style.display = 'none';
-                p1.style.display = 'grid';
-            } else if(panoNumber === 2) {
-                p1.style.display = 'none';
-                p2.style.display = 'block';
-            }
+            const p3 = document.getElementById('pano3');
+            
+            p1.style.display = 'none';
+            p2.style.display = 'none';
+            p3.style.display = 'none';
+
+            if(panoNumber === 1) p1.style.display = 'grid';
+            else if(panoNumber === 2) p2.style.display = 'block';
+            else if(panoNumber === 3) p3.style.display = 'block';
         }
 
         // XP Uygulama Pencereleri Aç/Kapat
-        function openXpApp(appId) {
-            document.getElementById(appId).style.display = 'block';
-        }
-        function closeXpApp(appId) {
-            document.getElementById(appId).style.display = 'none';
-        }
-
-        // Başlat Menüsü Toggle
+        function openXpApp(appId) { document.getElementById(appId).style.display = 'block'; }
+        function closeXpApp(appId) { document.getElementById(appId).style.display = 'none'; }
         function toggleXpStartMenu() {
             const menu = document.getElementById('xpStartMenu');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -687,7 +540,8 @@
                 if(cmd === 'ayarlar') openSettings();
                 else if(cmd === 'pano1') switchToPano(1);
                 else if(cmd === 'pano2') switchToPano(2);
-                else if(cmd === 'yardim') addLog("Komutlar: ayarlar, pano1, pano2, patates");
+                else if(cmd === 'pano3') switchToPano(3);
+                else if(cmd === 'yardim') addLog("Komutlar: ayarlar, pano1, pano2, pano3, patates");
                 else if(cmd === 'patates') addLog("🥔 Patates_14 yönetici yetkisi onaylandı.");
                 else if(cmd !== '') addLog(`Bilinmeyen komut: ${cmd}`);
             }
@@ -713,7 +567,9 @@
                 const res = document.createElement('div');
                 if(cmd === 'ayarlar') { res.innerText = "Ayarlar penceresi açılıyor..."; openSettings(); }
                 else if(cmd === 'pano1') { res.innerText = "Pano 1'e geçiliyor..."; switchToPano(1); }
-                else if(cmd === 'yardim') res.innerText = "Komutlar: ayarlar, pano1, cls, patates";
+                else if(cmd === 'pano2') { res.innerText = "Pano 2'ye geçiliyor..."; switchToPano(2); }
+                else if(cmd === 'pano3') { res.innerText = "Retro Tarayıcıya geçiliyor..."; switchToPano(3); }
+                else if(cmd === 'yardim') res.innerText = "Komutlar: ayarlar, pano1, pano2, pano3, cls, patates";
                 else if(cmd === 'cls') { cmdLogs.innerHTML = ''; return; }
                 else if(cmd === 'patates') res.innerText = "🥔 Hoş geldin Patates_14!";
                 else res.innerText = `'${cmd}' komutu tanınmıyor.`;
