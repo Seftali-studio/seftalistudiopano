@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şeftali Studio - Kapı Monitörü Pro v2.0</title>
+    <title>Şeftali Studio - Kapı Monitörü Pro v3.0</title>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.25);
             --glass-border: rgba(255, 255, 255, 0.5);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --aero-blue: #00a8ff;
-            --aero-green: #00d2d3;
         }
 
         * {
@@ -39,6 +37,7 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* PANO 1: Frutiger Aero Ana Konteyner */
         .dashboard-container {
             width: 94vw;
             height: 90vh;
@@ -54,7 +53,21 @@
             position: relative;
         }
 
-        /* Üst Menü */
+        /* PANO 2: Windows XP Masaüstü (Başlangıçta Gizli) */
+        .xp-desktop {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* Klasik Windows XP Yeşil Tepe ve Mavi Gökyüzü */
+            background: linear-gradient(to bottom, #3b82f6 0%, #60a5fa 60%, #15803d 60%, #166534 100%);
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        /* Üst Bar (Pano 1) */
         .header {
             background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
             border-bottom: 1px solid var(--glass-border);
@@ -130,20 +143,55 @@
             opacity: 0.9;
         }
 
-        /* MS-DOS / Komut İstemi Terminal Kutusu */
-        .terminal-box {
+        /* Küçültülebilir / Taşınabilir Terminal Penceresi */
+        .terminal-window {
             width: 100%;
-            height: 160px;
-            background: rgba(10, 10, 15, 0.75);
-            border: 1px solid #00d2d3;
+            background: rgba(15, 15, 25, 0.85);
+            border: 2px solid #00d2d3;
             border-radius: 8px;
-            padding: 10px 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-titlebar {
+            background: linear-gradient(to right, #00d2d3, #00a8ff);
+            color: #000;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-controls-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .term-btn {
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #000;
+            width: 16px;
+            height: 16px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .terminal-body {
+            padding: 10px;
             text-align: left;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85rem;
             color: #00ffcc;
-            overflow-y: hidden;
-            box-shadow: inset 0 0 10px rgba(0, 210, 211, 0.3);
+            height: 130px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -153,6 +201,8 @@
             display: flex;
             flex-direction: column;
             gap: 3px;
+            overflow-y: auto;
+            max-height: 90px;
         }
 
         .terminal-input-line {
@@ -173,7 +223,7 @@
             font-size: 0.85rem;
         }
 
-        /* Yan Panel ve Winamp Tarzı Çalar */
+        /* Yan Panel */
         .side-panel {
             display: flex;
             flex-direction: column;
@@ -195,7 +245,7 @@
             padding-bottom: 4px;
         }
 
-        /* Winamp Skin Müzikçalar */
+        /* Winamp Skin */
         .winamp-skin {
             background: linear-gradient(to bottom, #2d3436, #1e272e);
             border: 2px solid #636e72;
@@ -203,7 +253,6 @@
             padding: 10px;
             color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
         }
 
         .winamp-header {
@@ -244,10 +293,6 @@
             cursor: pointer;
         }
 
-        .winamp-btn:active {
-            background: #636e72;
-        }
-
         /* Aqua Düğme */
         .aero-btn {
             background: linear-gradient(to bottom, #00d2d3, #00a8ff);
@@ -258,15 +303,11 @@
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4), inset 0 2px 2px rgba(255,255,255,0.6);
+            box-shadow: 0 4px 15px rgba(0, 168, 255, 0.4);
             transition: all 0.2s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
-        .aero-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(0, 168, 255, 0.6), inset 0 2px 2px rgba(255,255,255,0.8);
-        }
+        .aero-btn:hover { transform: scale(1.03); }
 
         /* Alt Çubuk */
         .footer {
@@ -279,25 +320,158 @@
             font-size: 0.9rem;
         }
 
-        /* Retro Hata Pencereleri (Modal) */
-        .retro-window {
+        /* Windows XP Masaüstü İçeriği */
+        .xp-icons-grid {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 120px;
+        }
+
+        .xp-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            font-size: 0.85rem;
+            gap: 5px;
+        }
+
+        .xp-icon span:first-child {
+            font-size: 2.2rem;
+        }
+
+        .xp-icon:hover {
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            padding: 4px;
+        }
+
+        /* Windows XP Alt Görev Çubuğu */
+        .xp-taskbar {
             position: absolute;
-            width: 320px;
-            background: #ece9d8;
-            border: 2px solid #0055ea;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-            box-shadow: 4px 4px 15px rgba(0,0,0,0.5);
-            z-index: 100;
-            display: none;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 38px;
+            background: linear-gradient(to bottom, #245ded 0%, #1e3fae 100%);
+            border-top: 2px solid #5a85ee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 15px;
+        }
+
+        .xp-start-btn {
+            background: linear-gradient(to bottom, #3c893c 0%, #286328 50%, #1e4d1e 100%);
+            border: 1px solid #72cc72;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-style: italic;
+            padding: 4px 18px 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+            font-size: 0.95rem;
+        }
+
+        .xp-start-btn:hover {
+            background: linear-gradient(to bottom, #449a44 0%, #2f732f 50%, #235823 100%);
+        }
+
+        .xp-clock {
+            color: white;
+            font-size: 0.85rem;
             font-family: 'Tahoma', sans-serif;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.15);
+            padding: 4px 12px;
+            border-left: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* XP Başlat Menüsü */
+        .xp-start-menu {
+            position: absolute;
+            bottom: 38px;
+            left: 0;
+            width: 250px;
+            background: #ffffff;
+            border: 2px solid #0055ea;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            box-shadow: 3px -3px 10px rgba(0,0,0,0.4);
+            display: none;
+            z-index: 100;
             color: #000;
         }
 
-        .retro-titlebar {
+        .xp-menu-header {
+            background: linear-gradient(to right, #0055ea, #3c7bfd);
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .xp-menu-items {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .xp-menu-item {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .xp-menu-item:hover {
+            background: #2f65f6;
+            color: white;
+        }
+
+        .xp-menu-divider {
+            height: 1px;
+            background: #d4d0c8;
+            margin: 5px 10px;
+        }
+
+        /* Ayarlar Penceresi (Modal) */
+        .settings-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 420px;
+            background: #ece9d8;
+            border: 2px solid #0055ea;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 200;
+            color: #000;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        .settings-header {
             background: linear-gradient(to right, #0055ea, #6984eec4);
             color: white;
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-weight: bold;
             font-size: 0.85rem;
             display: flex;
@@ -305,73 +479,39 @@
             align-items: center;
         }
 
-        .retro-close-btn {
-            background: #e81123;
-            color: white;
-            border: 1px solid #fff;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 2px;
-        }
-
-        .retro-body {
-            padding: 15px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
+        .settings-body {
+            padding: 20px;
             font-size: 0.9rem;
-            background: #ece9d8;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .retro-footer {
-            background: #f0eee9;
-            padding: 8px;
-            text-align: center;
-            border-top: 1px solid #d4d0c8;
-        }
-
-        .retro-btn-ok {
-            background: #dfdcd5;
+        .settings-option {
+            background: #fff;
             border: 1px solid #7f7f7f;
-            padding: 4px 20px;
-            font-weight: bold;
+            padding: 12px;
+            border-radius: 4px;
             cursor: pointer;
-            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .retro-btn-ok:hover {
-            border-color: #000;
-            background: #e5e3db;
-        }
-
-        /* Matrix / Şeftali Yağmuru Efekti için Canvas */
-        #matrixCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            display: none;
+        .settings-option:hover {
+            background: #e8f0fe;
+            border-color: #0055ea;
         }
     </style>
 </head>
 <body>
 
-    <!-- Şeftali / Matrix Yağmuru Canvas -->
-    <canvas id="matrixCanvas"></canvas>
-
-    <div class="dashboard-container">
+    <!-- PANO 1: Frutiger Aero Ana Pano -->
+    <div class="dashboard-container" id="pano1">
         <!-- Üst Bar -->
         <div class="header">
             <div class="logo-area" onclick="triggerSecretLogo()">
-                🍑 <span>Şeftali Studio</span> Kapı Monitörü v2.0
+                🍑 <span>Şeftali Studio</span> Kapı Monitörü v3.0
             </div>
             <div class="header-right">
                 <div class="weather-widget-header" id="weatherDisplay">🌤️ Denizli 21°C</div>
@@ -388,22 +528,29 @@
                     <button class="aero-btn" onclick="triggerEasterEgg()">Zile Bas / Sürpriz Aç</button>
                 </div>
 
-                <!-- MS-DOS / Komut İstemi Terminali -->
-                <div class="terminal-box">
-                    <div class="terminal-logs" id="terminalLogs">
-                        <div>> [SYSTEM] Şeftali Studio Kapı Paneli başlatıldı...</div>
-                        <div>> [INFO] 2000'ler Frutiger Aero protokolleri aktif.</div>
-                        <div>> [GÜVENLİK] Kapı sensörleri sorunsuz çalışıyor.</div>
+                <!-- Küçültülebilir Terminal Penceresi -->
+                <div class="terminal-window" id="terminalWindow">
+                    <div class="terminal-titlebar">
+                        <span>C:\ŞEFTALİ\KONSOL.EXE</span>
+                        <div class="terminal-controls-btns">
+                            <div class="term-btn" onclick="toggleTerminalBody()" title="Küçült/Büyüt">-</div>
+                        </div>
                     </div>
-                    <div class="terminal-input-line">
-                        <span>C:\ŞEFTALİ></span>
-                        <input type="text" id="terminalInput" placeholder="Komut yazın (örn: yardim, patates,matrix)..." onkeydown="handleTerminalCommand(event)">
+                    <div class="terminal-body" id="termBodyContainer">
+                        <div class="terminal-logs" id="terminalLogs">
+                            <div>> [SİSTEM] Şeftali Studio Paneli aktif.</div>
+                            <div>> [BİLGİ] Pano listesi için 'ayarlar' yazın!</div>
+                        </div>
+                        <div class="terminal-input-line">
+                            <span>C:\></span>
+                            <input type="text" id="terminalInput" placeholder="Komut yazın (ayarlar, pano2, yardim)..." onkeydown="handleTerminalCommand(event)">
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="side-panel">
-                <!-- Winamp Tarzı Müzikçalar -->
+                <!-- Winamp Çalar -->
                 <div class="widget">
                     <h3>Winamp 2000 Müzikçalar</h3>
                     <div class="winamp-skin">
@@ -423,10 +570,6 @@
                     <h3>Kapı Durumu</h3>
                     <p>🟢 Bölge Güvenli & Aktif<br><small>Gelenler titizlikle izleniyor...</small></p>
                 </div>
-                <div class="widget">
-                    <h3>Stüdyo Notu</h3>
-                    <p>Monitör nöbette! Şeftali kokulu günler dileriz. 🍑✨</p>
-                </div>
             </div>
         </div>
 
@@ -437,42 +580,112 @@
         </div>
     </div>
 
-    <!-- Retro Windows XP Hata Penceresi -->
-    <div class="retro-window" id="retroErrorWin" style="top: 35%; left: 40%;">
-        <div class="retro-titlebar">
-            <span>Windows - Hata</span>
-            <div class="retro-close-btn" onclick="closeRetroError()">X</div>
+
+    <!-- PANO 2: Windows XP Masaüstü Panosu -->
+    <div class="xp-desktop" id="pano2">
+        <div class="xp-icons-grid">
+            <div class="xp-icon" onclick="alert('Bilgisayarım: Şeftali Sunucu Donanımı %100 Sağlıklı.')">
+                <span>💻</span>
+                <span>Bilgisayarım</span>
+            </div>
+            <div class="xp-icon" onclick="alert('Geri Dönüşüm Kutusu: Tertemiz! Hiç çöp yok.')">
+                <span>🗑️</span>
+                <span>Çöp Kutusu</span>
+            </div>
+            <div class="xp-icon" onclick="switchToPano(1)">
+                <span>🍑</span>
+                <span>Pano 1'e Dön</span>
+            </div>
         </div>
-        <div class="retro-body">
-            <span style="font-size: 2rem;">⚠️</span>
-            <span id="retroErrorMsg">Kritik Hata: Şeftali çekirdeği belleği aştı! Sistem zorlanıyor.</span>
+
+        <!-- XP Görev Çubuğu -->
+        <div class="xp-taskbar">
+            <div class="xp-start-btn" onclick="toggleXpStartMenu()">
+                <span>❖</span> Başlat
+            </div>
+            <div class="xp-clock" id="xpClock">00:00</div>
         </div>
-        <div class="retro-footer">
-            <button class="retro-btn-ok" onclick="closeRetroError()">Tamam</button>
+
+        <!-- XP Başlat Menüsü -->
+        <div class="xp-start-menu" id="xpStartMenu">
+            <div class="xp-menu-header">
+                <span>🍑</span>
+                <span>Patates_14</span>
+            </div>
+            <div class="xp-menu-items">
+                <div class="xp-menu-item" onclick="switchToPano(1); toggleXpStartMenu();">
+                    <span>🪟</span> Frutiger Aero Pano (Pano 1)
+                </div>
+                <div class="xp-menu-divider"></div>
+                <div class="xp-menu-item" onclick="alert('Şeftali Studio v3.0 - Kapı Monitörü Sistemi')">
+                    <span>ℹ️</span> Sistem Hakkında
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- AYARLAR PENCERESİ (Komut satırından 'ayarlar' yazınca açılır) -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-header">
+            <span>Şeftali Studio - Pano Ayarları ve Seçimi</span>
+            <div class="term-btn" onclick="closeSettings()" style="width:18px;height:18px;text-align:center;">X</div>
+        </div>
+        <div class="settings-body">
+            <p>Lütfen geçiş yapmak istediğiniz pano modunu seçin:</p>
+            <div class="settings-option" onclick="switchToPano(1); closeSettings();">
+                <div>
+                    <strong>1. Pano: Frutiger Aero Ana Pano</strong>
+                    <p style="font-size:0.8rem; color:#555;">Cam efektleri, Winamp çalar ve terminal konsolu.</p>
+                </div>
+                <span>➡️</span>
+            </div>
+            <div class="settings-option" onclick="switchToPano(2); closeSettings();">
+                <div>
+                    <strong>2. Pano: Windows XP Masaüstü</strong>
+                    <p style="font-size:0.8rem; color:#555;">Klasik yeşil tepe teması, masaüstü simgeleri ve başlat menüsü.</p>
+                </div>
+                <span>➡️</span>
+            </div>
         </div>
     </div>
 
     <script>
-        // Canlı Saat, Tarih ve Gün
-        function updateClockAndDate() {
+        // Saat ve Tarih Güncelleyici
+        function updateAllClocks() {
             const now = new Date();
-            document.getElementById('liveClock').innerText = now.toLocaleTimeString('tr-TR');
+            const timeStr = now.toLocaleTimeString('tr-TR');
+            document.getElementById('liveClock').innerText = timeStr;
+            document.getElementById('xpClock').innerText = now.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
             
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('dateDisplay').innerText = now.toLocaleDateString('tr-TR', options);
         }
-        setInterval(updateClockAndDate, 1000);
-        updateClockAndDate();
+        setInterval(updateAllClocks, 1000);
+        updateAllClocks();
 
-        // Terminal Komut Sistemi
+        // Pano Değiştirme Fonksiyonu
+        function switchToPano(panoNumber) {
+            const p1 = document.getElementById('pano1');
+            const p2 = document.getElementById('pano2');
+            if(panoNumber === 1) {
+                p2.style.display = 'none';
+                p1.style.display = 'grid';
+                addLog("1 numaralı Frutiger Aero pano aktif.");
+            } else if(panoNumber === 2) {
+                p1.style.display = 'none';
+                p2.style.display = 'block';
+                addLog("2 numaralı Windows XP Masaüstü panosu aktif.");
+            }
+        }
+
+        // Terminal Konsol Sistemi
         const terminalLogs = document.getElementById('terminalLogs');
         function addLog(text) {
             const div = document.createElement('div');
             div.innerText = `> ${text}`;
             terminalLogs.appendChild(div);
-            if(terminalLogs.childElementCount > 5) {
-                terminalLogs.removeChild(terminalLogs.firstChild);
-            }
+            terminalLogs.scrollTop = terminalLogs.scrollHeight;
         }
 
         function handleTerminalCommand(e) {
@@ -482,179 +695,90 @@
                 addLog(input.value);
                 input.value = '';
 
-                if(cmd === 'yardim' || cmd === 'help') {
-                    addLog("Geçerli Komutlar: patates, matrix, temizle, easteregg, hakkinda");
+                if(cmd === 'ayarlar') {
+                    addLog("Ayarlar penceresi açılıyor...");
+                    openSettings();
+                } else if(cmd === 'pano1') {
+                    switchToPano(1);
+                } else if(cmd === 'pano2') {
+                    switchToPano(2);
+                } else if(cmd === 'yardim' || cmd === 'help') {
+                    addLog("Komutlar: ayarlar, pano1, pano2, patates, temizle");
                 } else if(cmd === 'patates') {
-                    addLog("🥔 Patates_14 sisteme tam yetkiyle bağlandı!");
-                } else if(cmd === 'matrix') {
-                    addLog("Yeşil kod yağmuru başlatıldı!");
-                    triggerMatrixRain();
+                    addLog("🥔 Patates_14 sistem yöneticisi olarak doğrulandı!");
                 } else if(cmd === 'temizle' || cmd === 'cls') {
-                    terminalLogs.innerHTML = '<div>> [SYSTEM] Konsol temizlendi.</div>';
-                } else if(cmd === 'easteregg') {
-                    addLog("🎉 Gizli zili tetikledin!");
-                    triggerEasterEgg();
-                } else if(cmd === 'hakkinda') {
-                    addLog("Şeftali Studio Kapı Paneli v2.0 - Basitlikten Doğan Eğlence.");
+                    terminalLogs.innerHTML = '<div>> [SİSTEM] Konsol temizlendi.</div>';
                 } else if(cmd !== '') {
-                    addLog(`Bilinmeyen komut: '${cmd}'. 'yardim' yazabilirsin.`);
+                    addLog(`Bilinmeyen komut: '${cmd}'. 'ayarlar' yazabilirsin.`);
                 }
             }
         }
 
-        // Easter Egg Zili ve Sayaç
-        let secretClicks = 0;
-        const counterDisplay = document.getElementById('clickCounter');
-        const easterEggMessages = [
-            "Kapıdan biri baktı ama çaktırmadı! 👀",
-            "Patates_14 sisteme başarıyla sızdı... 🥔✨",
-            "Frutiger Aero rüzgarları stüdyoyu sardı!",
-            "Dikkat: Bu ekrana çok bakmak bağımlılık yapar."
-        ];
-
-        function triggerEasterEgg() {
-            secretClicks++;
-            counterDisplay.innerText = `Gizli Sayaç: ${secretClicks}`;
-            const randomMsg = easterEggMessages[Math.floor(Math.random() * easterEggMessages.length)];
-            
-            // Retro Hata Penceresini Mesajla Aç
-            document.getElementById('retroErrorMsg').innerText = randomMsg;
-            const errWin = document.getElementById('retroErrorWin');
-            errWin.style.display = 'block';
-            errWin.style.top = `${Math.random() * 40 + 20}%`;
-            errWin.style.left = `${Math.random() * 40 + 30}%`;
-
-            // Rastgele ek hata kutusu şansı (%30)
-            if(Math.random() < 0.3) {
-                setTimeout(spawnExtraError, 400);
-            }
+        // Ayarlar Penceresi Kontrolleri
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
         }
 
-        function closeRetroError() {
-            document.getElementById('retroErrorWin').style.display = 'none';
+        // Terminal Küçültme
+        function toggleTerminalBody() {
+            const body = document.getElementById('termBodyContainer');
+            body.style.display = body.style.display === 'none' ? 'flex' : 'none';
         }
 
-        function spawnExtraError() {
-            const extra = document.createElement('div');
-            extra.className = 'retro-window';
-            extra.style.display = 'block';
-            extra.style.top = `${Math.random() * 50 + 10}%`;
-            extra.style.left = `${Math.random() * 50 + 10}%`;
-            extra.innerHTML = `
-                <div class="retro-titlebar"><span>Uyarı - Şeftali Studio</span><div class="retro-close-btn" onclick="this.parentElement.parentElement.remove()">X</div></div>
-                <div class="retro-body"><span>💡</span><span>Arka planda gizli bir easter egg çalışıyor!</span></div>
-                <div class="retro-footer"><button class="retro-btn-ok" onclick="this.parentElement.parentElement.remove()">Kapat</button></div>
-            `;
-            document.body.appendChild(extra);
+        // Windows XP Başlat Menüsü Toggle
+        function toggleXpStartMenu() {
+            const menu = document.getElementById('xpStartMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Winamp 8-Bit Ses Motoru (Web Audio API)
+        // Winamp 8-Bit Ses Motoru
         let audioCtx = null;
         let isPlaying = false;
         let musicTimer = null;
-        const tracks = [
-            "01. Şeftali Rüzgarı - 8bit.mid",
-            "02. Frutiger Aero Vista - Synth.wav",
-            "03. Patates Network Şarkısı.s3m",
-            "04. Nostaljik 2000ler Melodisi.xm"
-        ];
+        const tracks = ["01. Şeftali Rüzgarı.mid", "02. Frutiger Aero.wav", "03. Patates Network.s3m"];
         let currentTrackIdx = 0;
 
         function toggleMusic() {
-            if(!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if(isPlaying) {
-                stopWinampMusic();
+                isPlaying = false;
+                clearInterval(musicTimer);
+                document.getElementById('audioStatus').innerText = "DURDURULDU";
             } else {
-                startWinampMusic();
+                isPlaying = true;
+                document.getElementById('audioStatus').innerText = "ÇALIYOR";
+                const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00];
+                musicTimer = setInterval(() => {
+                    if(!isPlaying) return;
+                    try {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.frequency.value = notes[Math.floor(Math.random() * notes.length)];
+                        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + 0.3);
+                    } catch(e) {}
+                }, 300);
             }
-        }
-
-        function startWinampMusic() {
-            isPlaying = true;
-            document.getElementById('audioStatus').innerText = "ÇALIYOR";
-            document.getElementById('audioStatus').style.color = "#00ffcc";
-            
-            // Basit neşeli 8-bit nota döngüsü
-            const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 523.25];
-            musicTimer = setInterval(() => {
-                if(!isPlaying) return;
-                try {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.value = notes[Math.floor(Math.random() * notes.length)];
-                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.3);
-                } catch(e) {}
-            }, 300);
-        }
-
-        function stopWinampMusic() {
-            isPlaying = false;
-            clearInterval(musicTimer);
-            document.getElementById('audioStatus').innerText = "DURDURULDU";
-            document.getElementById('audioStatus').style.color = "#b2bec3";
         }
 
         function nextTrack() {
             currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
             document.getElementById('trackDisplay').innerText = tracks[currentTrackIdx];
-            addLog(`Şarkı değiştirildi: ${tracks[currentTrackIdx]}`);
         }
 
-        // Matrix / Şeftali Yağmuru (30 dakikada bir veya manuel tetikleme)
-        function triggerMatrixRain() {
-            const canvas = document.getElementById('matrixCanvas');
-            canvas.style.display = 'block';
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const chars = '🍑🥔01ŞEFTALİAERO';
-            const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            const drops = [];
-            for(let x=0; x<columns; x++) drops[x] = 1;
-
-            const rainInterval = setInterval(() => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#00ffcc';
-                ctx.font = fontSize + 'px monospace';
-
-                for(let i=0; i<drops.length; i++) {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-                    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
-            }, 50);
-
-            // 15 saniye sonra kapat
-            setTimeout(() => {
-                clearInterval(rainInterval);
-                canvas.style.display = 'none';
-            }, 15000);
+        function triggerEasterEgg() {
+            alert("🎉 Zile basıldı! Şeftali kokusu kapıdan içeri yayıldı 🍑");
         }
 
-        // Otomatik 30 dakikada bir Matrix/Şeftali yağmuru
-        setInterval(triggerMatrixRain, 30 * 60 * 1000);
-
-        // Logo 5 tıklama gizli easter egg
-        let logoClicks = 0;
         function triggerSecretLogo() {
-            logoClicks++;
-            if(logoClicks === 5) {
-                alert("Gizli Yönetici Modu Aktif! Şeftali ağaçları çiçek açtı 🌸🍑");
-                triggerMatrixRain();
-                logoClicks = 0;
-            }
+            alert("Gizli Yönetici Modu! 🍑✨");
         }
     </script>
 </body>
