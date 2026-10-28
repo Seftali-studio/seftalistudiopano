@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şeftali Studio - Kapı Monitörü Pro v5.0</title>
+    <title>Şeftali Studio - Kapı Monitörü Pro v6.0 (Cyberpunk Edition)</title>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.25);
@@ -57,123 +57,122 @@
             z-index: 50;
         }
 
-        /* PANO 3: 2000'ler Retro Tarayıcı (Internet Explorer / Netscape Vibe) */
-        .retro-browser-pano {
+        /* PANO 3: Retro Tarayıcı Panosu */
+        .browser-pano {
             display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #c0c0c0; /* Klasik Win98 Gri */
+            background: #ece9d8;
             z-index: 60;
-            padding: 10px;
-            font-family: 'MS Sans Serif', Tahoma, sans-serif;
             color: #000;
+            font-family: 'Tahoma', sans-serif;
+            flex-direction: column;
         }
 
-        .browser-window {
+        .browser-titlebar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 10px; font-weight: bold; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+        .browser-toolbar { background: #ece9d8; border-bottom: 2px solid #d4d0c8; padding: 5px 10px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .browser-btn { background: #dfdcd5; border: 1px solid; border-color: #fff #7f7f7f #7f7f7f #fff; padding: 3px 8px; cursor: pointer; font-weight: bold; border-radius: 2px; }
+        .browser-addressbar { background: #fff; border: 1px solid; border-color: #7f7f7f #fff #fff #7f7f7f; padding: 3px 8px; flex-grow: 1; font-family: 'Courier New', monospace; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between; }
+        .browser-content { flex-grow: 1; background: #ffffff; padding: 30px; overflow-y: auto; color: #000; }
+        .retro-web-site { max-width: 800px; margin: 0 auto; border: 2px dashed #000080; padding: 20px; background: #f9f9f9; }
+
+        /* PANO 4: Cyberpunk / Neon Sokak & Billboard Panosu */
+        .cyberpunk-pano {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0b0b12;
+            z-index: 70;
+            color: #fff;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 25px;
+            /* Hafif sis / karanlık sokak dokusu */
+            background-image: radial-gradient(circle at 50% 30%, #1a1a2e 0%, #0b0b12 80%);
+        }
+
+        /* Üst Neon Tabela (Fotoğraftaki tarzda yeşil neon çerçeve ve kırmızı yazı) */
+        .cyber-neon-header {
             width: 100%;
-            height: 100%;
-            background: #ece9d8;
-            border: 2px solid;
-            border-color: #fff #808080 #808080 #fff;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-        }
-
-        .browser-titlebar {
-            background: linear-gradient(to right, #000080, #1084d0);
-            color: white;
-            padding: 6px 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .browser-toolbar {
-            background: #ece9d8;
-            border-bottom: 2px solid #808080;
-            padding: 6px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .browser-nav-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .browser-btn {
-            background: #ece9d8;
-            border: 2px solid;
-            border-color: #fff #808080 #808080 #fff;
-            padding: 3px 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .browser-btn:active { border-color: #808080 #fff #fff #808080; }
-
-        .browser-address-bar {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-        }
-
-        .address-input {
-            flex-grow: 1;
-            background: #fff;
-            border: 2px inset #808080;
-            padding: 3px 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-        }
-
-        .browser-content {
-            flex-grow: 1;
-            background: #ffffff;
-            border: 2px inset #808080;
-            margin: 8px;
-            padding: 20px;
-            overflow-y: auto;
+            border: 3px solid #00ff66;
+            box-shadow: 0 0 15px #00ff66, inset 0 0 15px #00ff66;
+            padding: 15px;
             text-align: center;
+            background: rgba(0, 255, 102, 0.05);
+            border-radius: 8px;
+            position: relative;
         }
 
-        .retro-site-header {
-            border-bottom: 3px double #000080;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+        .cyber-neon-header h1 {
+            font-size: 2.8rem;
+            color: #ff0055;
+            text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055, 0 0 30px #ff0055;
+            letter-spacing: 3px;
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        .retro-marquee {
-            background: #000080;
-            color: #ffff00;
-            padding: 5px;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 15px;
-            border: 1px solid #000;
+        /* Orta Billboard Izgarası (Kapı Monitörü Panoları) */
+        .cyber-billboards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
         }
 
-        /* Ortak Üst Bar (Pano 1) */
-        .header {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
-            border-bottom: 1px solid var(--glass-border);
+        .cyber-billboard {
+            background: rgba(20, 20, 35, 0.85);
+            border: 2px solid #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-billboard:hover {
+            transform: scale(1.03);
+            border-color: #ff0055;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+        }
+
+        .cyber-billboard h3 {
+            color: #00f3ff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px #00f3ff;
+        }
+
+        .cyber-billboard p {
+            font-size: 0.9rem;
+            color: #b2bec3;
+        }
+
+        /* Alt Sokak Çubuğu */
+        .cyber-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 25px;
-            color: #1e272e;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+            border-top: 1px solid rgba(0, 255, 102, 0.3);
+            padding-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #00ff66;
+            text-shadow: 0 0 5px #00ff66;
         }
 
+        /* Üst Bar (Pano 1) */
+        .header { background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3)); border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; padding: 0 25px; color: #1e272e; text-shadow: 0 1px 1px rgba(255,255,255,0.8); }
         .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
         .logo-area span { color: #ff4757; }
         .header-right { display: flex; align-items: center; gap: 20px; font-size: 0.95rem; font-weight: 600; }
@@ -184,7 +183,6 @@
         .center-welcome h1 { font-size: 2.5rem; margin-bottom: 5px; }
         .slogan { font-size: 1.1rem; margin-bottom: 20px; font-style: italic; opacity: 0.9; }
 
-        /* Terminal Penceresi */
         .terminal-window { width: 100%; background: rgba(15, 15, 25, 0.85); border: 2px solid #00d2d3; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; }
         .terminal-titlebar { background: linear-gradient(to right, #00d2d3, #00a8ff); color: #000; padding: 5px 10px; font-weight: bold; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; }
         .term-btn { background: rgba(255,255,255,0.8); border: 1px solid #000; width: 16px; height: 16px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
@@ -208,10 +206,10 @@
 
         .footer { background: rgba(0, 0, 0, 0.25); border-top: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-size: 0.9rem; }
 
-        /* XP Masaüstü */
-        .xp-icons-grid { padding: 25px; display: grid; grid-template-columns: repeat(3, 90px); gap: 20px; }
+        /* XP Masaüstü İkonları */
+        .xp-icons-grid { padding: 25px; display: grid; grid-template-columns: repeat(2, 90px); gap: 20px; }
         .xp-icon { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-size: 0.85rem; gap: 5px; }
-        .xp-icon span:first-child { font-size: 2.2rem; }
+        .xp-icon span:first-child { font-size: 2.5rem; }
         .xp-icon:hover { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 5px; }
 
         .xp-taskbar { position: absolute; bottom: 0; left: 0; width: 100vw; height: 38px; background: linear-gradient(to bottom, #245ded 0%, #1e3fae 100%); border-top: 2px solid #5a85ee; display: flex; align-items: center; justify-content: space-between; padding-right: 15px; z-index: 100; }
@@ -225,7 +223,6 @@
         .xp-menu-item:hover { background: #2f65f6; color: white; }
         .xp-menu-divider { height: 1px; background: #d4d0c8; margin: 5px 10px; }
 
-        /* XP Pencereler */
         .xp-window { position: absolute; top: 15%; left: 20%; width: 380px; background: #ece9d8; border: 2px solid #0055ea; border-top-left-radius: 6px; border-top-right-radius: 6px; box-shadow: 4px 4px 15px rgba(0,0,0,0.5); display: none; z-index: 150; font-family: 'Tahoma', sans-serif; color: #000; }
         .xp-window-titlebar { background: linear-gradient(to right, #0055ea, #6984eec4); color: white; padding: 5px 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
         .xp-window-close { background: #e81123; color: white; border: 1px solid #fff; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 2px; }
@@ -234,8 +231,8 @@
         /* Ayarlar Penceresi */
         .settings-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 440px; background: #ece9d8; border: 2px solid #0055ea; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; z-index: 300; color: #000; font-family: 'Tahoma', sans-serif; }
         .settings-header { background: linear-gradient(to right, #0055ea, #6984eec4); color: white; padding: 6px 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
-        .settings-body { padding: 20px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 15px; }
-        .settings-option { background: #fff; border: 1px solid #7f7f7f; padding: 12px; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .settings-body { padding: 20px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 12px; }
+        .settings-option { background: #fff; border: 1px solid #7f7f7f; padding: 10px; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .settings-option:hover { background: #e8f0fe; border-color: #0055ea; }
     </style>
 </head>
@@ -245,7 +242,7 @@
     <div class="dashboard-container" id="pano1">
         <div class="header">
             <div class="logo-area" onclick="openSettings()">
-                🍑 <span>Şeftali Studio</span> Kapı Monitörü v5.0
+                🍑 <span>Şeftali Studio</span> Kapı Monitörü v6.0
             </div>
             <div class="header-right">
                 <div class="weather-widget-header" id="weatherDisplay">🌤️ Denizli 21°C</div>
@@ -268,12 +265,12 @@
                     </div>
                     <div class="terminal-body">
                         <div class="terminal-logs" id="terminalLogs">
-                            <div>> [SİSTEM] v5.0 Başlatıldı.</div>
-                            <div>> [BİLGİ] Pano değişimi için 'ayarlar' yazın!</div>
+                            <div>> [SİSTEM] v6.0 Cyberpunk Edition aktif.</div>
+                            <div>> [BİLGİ] 'ayarlar' yazarak Cyberpunk panoya geçin!</div>
                         </div>
                         <div class="terminal-input-line">
                             <span>C:\></span>
-                            <input type="text" id="terminalInput" placeholder="Komut yazın (ayarlar, pano2, pano3)..." onkeydown="handleTerminalCommand(event)">
+                            <input type="text" id="terminalInput" placeholder="Komut yazın (ayarlar, pano4)..." onkeydown="handleTerminalCommand(event)">
                         </div>
                     </div>
                 </div>
@@ -312,11 +309,11 @@
     <div class="xp-desktop" id="pano2">
         <div class="xp-icons-grid">
             <div class="xp-icon" onclick="openXpApp('clockApp')"><span>⏰</span><span>Saat & Hava</span></div>
-            <div class="xp-icon" onclick="openXpApp('radioApp')"><span>📻</span><span>Radyo</span></div>
+            <div class="xp-icon" onclick="openXpApp('radioApp')"><span>📻</span><span>Winamp Radyo</span></div>
             <div class="xp-icon" onclick="openXpApp('gameApp')"><span>🎮</span><span>Şeftali Oyunu</span></div>
             <div class="xp-icon" onclick="openXpApp('newsApp')"><span>📰</span><span>Son Dakika</span></div>
             <div class="xp-icon" onclick="openXpApp('cmdApp')"><span>💻</span><span>CMD Komut</span></div>
-            <div class="xp-icon" onclick="switchToPano(3)"><span>🌐</span><span>Retro Tarayıcı</span></div>
+            <div class="xp-icon" onclick="openSettings()"><span>⚙️</span><span>Pano Ayarları</span></div>
             <div class="xp-icon" onclick="switchToPano(1)"><span>🍑</span><span>Pano 1'e Dön</span></div>
         </div>
 
@@ -329,83 +326,95 @@
             <div class="xp-menu-header"><span>🍑</span><span>Patates_14</span></div>
             <div class="xp-menu-items">
                 <div class="xp-menu-item" onclick="openXpApp('clockApp'); toggleXpStartMenu();"><span>⏰</span> Saat Uygulaması</div>
-                <div class="xp-menu-item" onclick="openXpApp('radioApp'); toggleXpStartMenu();"><span>📻</span> Radyo Çalar</div>
+                <div class="xp-menu-item" onclick="openXpApp('radioApp'); toggleXpStartMenu();"><span>📻</span> Radyo (Müzik)</div>
                 <div class="xp-menu-item" onclick="openXpApp('gameApp'); toggleXpStartMenu();"><span>🎮</span> Easter Egg Oyunu</div>
                 <div class="xp-menu-item" onclick="openXpApp('newsApp'); toggleXpStartMenu();"><span>📰</span> Şeftali Haberleri</div>
                 <div class="xp-menu-item" onclick="openXpApp('cmdApp'); toggleXpStartMenu();"><span>💻</span> CMD Komut İstemi</div>
                 <div class="xp-menu-divider"></div>
-                <div class="xp-menu-item" onclick="switchToPano(3)"><span>🌐</span> Pano 3 (Retro Tarayıcı)</div>
                 <div class="xp-menu-item" onclick="switchToPano(1)"><span>🪟</span> Pano 1 (Frutiger Aero)</div>
+                <div class="xp-menu-item" onclick="switchToPano(3)"><span>🌐</span> Pano 3 (Retro Tarayıcı)</div>
+                <div class="xp-menu-item" onclick="switchToPano(4)"><span>🌆</span> Pano 4 (Cyberpunk Neon)</div>
             </div>
         </div>
     </div>
 
 
-    <!-- PANO 3: 2000'LER RETRO TARAYICI (IE6 / Netscape Vibe) -->
-    <div class="retro-browser-pano" id="pano3">
-        <div class="browser-window">
-            <div class="browser-titlebar">
-                <span>Internet Explorer - http://www.seftalistudio.2000s/portal.html</span>
-                <div style="display:flex; gap:3px;">
-                    <button class="browser-btn" onclick="switchToPano(1)" title="Ana Panoya Dön">X</button>
-                </div>
+    <!-- PANO 3: 2000'ler Retro Tarayıcı Panosu -->
+    <div class="browser-pano" id="pano3">
+        <div class="browser-titlebar">
+            <span>Netscape Navigator - [Şeftali Studio Resmî Web Portalı v1.0]</span>
+            <div class="term-btn" onclick="switchToPano(1)" style="width:18px;height:18px;text-align:center;">X</div>
+        </div>
+        <div class="browser-toolbar">
+            <button class="browser-btn" onclick="alert('Geri sayfa yok!')">Geri</button>
+            <button class="browser-btn" onclick="alert('İleri sayfa yok!')">İleri</button>
+            <button class="browser-btn" onclick="window.location.reload()">Yenile</button>
+            <button class="browser-btn" onclick="openSettings()">Ayarlar</button>
+            <span>Adres:</span>
+            <div class="browser-addressbar">
+                <span>http://www.seftalistudio.com/kapimonitoru.html</span>
+                <span>🔒 Güvenli</span>
             </div>
-            <div class="browser-toolbar">
-                <div class="browser-nav-row">
-                    <button class="browser-btn" onclick="switchToPano(1)">⬅ Geri</button>
-                    <button class="browser-btn" onclick="alert('Ana sayfa güncel!')">🏠 Ana Sayfa</button>
-                    <button class="browser-btn" onclick="openSettings()">⚙️ Ayarlar</button>
-                    <button class="browser-btn" onclick="switchToPano(2)">🪟 XP Masaüstü</button>
-                </div>
-                <div class="browser-address-bar">
-                    <span>Adres:</span>
-                    <input type="text" class="address-input" value="http://www.seftali-studio.github.io/kapı-monitörü" readonly>
-                </div>
-            </div>
-            <div class="browser-content">
-                <div class="retro-site-header">
-                    <h1 style="color: #000080; font-family: 'Times New Roman', serif; font-size: 2.2rem;">✨ Şeftali Studio Resmî Web Portalı ✨</h1>
-                    <i style="color: #666;">"Basitlikten Doğan Eğlence" - Kurulum Tarihi: 2020</i>
-                </div>
-                
-                <div class="retro-marquee">
-                    📢 HOŞ GELDİNİZ! KAPININ ÖNÜNDEKİ MONİTÖRÜNÜZ BAŞARIYLA AKTİFTİR. 🍑 PATATES_14 YÖNETİMİNDE YENİ SEZON BAŞLADI!
-                </div>
-
-                <div style="background: #ffffcc; border: 2px dashed #ff0000; padding: 15px; margin-bottom: 20px; text-align: left;">
-                    <h3 style="color: #cc0000; margin-bottom: 5px;">🚧 YAPIM AŞAMASINDA (Under Construction) 🚧</h3>
-                    <p style="font-size: 0.9rem;">Bu web sitesi Netscape Navigator 4.0 ve Internet Explorer 6.0 için optimize edilmiştir. Ziyaretçi sayacı aktif olarak çalışmaktadır.</p>
-                </div>
-
-                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="alert('Ziyaretçi Sayısı: 1,453 kişi kapıdan geçti!')">📊 Ziyaretçi Sayacı</button>
-                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="switchToPano(1)">🏠 Frutiger Aero Pano</button>
-                    <button class="browser-btn" style="padding: 8px 15px; background: #c0c0c0;" onclick="switchToPano(2)">🪟 XP Masaüstü</button>
-                </div>
-
-                <div style="border-top: 1px solid #808080; padding-top: 10px; font-size: 0.8rem; color: #449000;">
-                    © 2026 Şeftali Studio Topluluğu. Tüm hakları saklıdır.
+        </div>
+        <div class="browser-content">
+            <div class="retro-web-site">
+                <h2 style="color: #000080; border-bottom: 2px solid #000080; padding-bottom: 5px; margin-bottom: 15px;">
+                    🍑 Şeftali Studio Web Vitrini (2000'ler Modu)
+                </h2>
+                <p style="margin-bottom: 10px;">Hoş geldiniz! Bu site <b>Netscape Navigator</b> standartlarına uygun olarak tasarlanmıştır.</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="browser-btn" onclick="switchToPano(1)">Frutiger Pano (1)</button>
+                    <button class="browser-btn" onclick="switchToPano(4)">Cyberpunk Pano (4)</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <!-- XP UYGULAMA PENCERELERİ -->
+    <!-- PANO 4: Cyberpunk / Neon Sokak & Billboard Panosu -->
+    <div class="cyberpunk-pano" id="pano4">
+        <div class="cyber-neon-header">
+            <h1>ŞEFTALİ STUDIO</h1>
+            <p style="color: #00ff66; font-size: 0.9rem; margin-top: 5px; letter-spacing: 1px;">>>> NEON SOKAKLARI & KAPI MONİTÖRÜ v6.0 <<<</p>
+        </div>
+
+        <div class="cyber-billboards-grid">
+            <div class="cyber-billboard" onclick="alert('Billboard 1: Patates_14 tarafından korunan güvenli bölge.')">
+                <h3>⚡ BÖLGE GÜVENLİĞİ</h3>
+                <p>Kapı sensörleri aktif. Akış stabil.</p>
+            </div>
+            <div class="cyber-billboard" onclick="openSettings()">
+                <h3>⚙️ SİSTEM AYARLARI</h3>
+                <p>Panolar arası geçiş yap ve yapılandır.</p>
+            </div>
+            <div class="cyber-billboard" onclick="triggerEasterEgg()">
+                <h3>🍑 GİZLİ EASTER EGG</h3>
+                <p>Neon ışıkların altındaki sırrı keşfet!</p>
+            </div>
+        </div>
+
+        <div class="cyber-footer">
+            <span>[STÜDYO AKTİF]</span>
+            <span onclick="switchToPano(1)" style="cursor:pointer; color:#00f3ff;">[◀ Frutiger Aero'ya Dön]</span>
+            <span>[DENİZLİ / SÜMER]</span>
+        </div>
+    </div>
+
+
+    <!-- Uygulama Pencereleri (XP İçin) -->
     <div class="xp-window" id="clockApp" style="top: 10%; left: 15%;">
         <div class="xp-window-titlebar"><span>Zaman ve Hava Durumu</span><div class="xp-window-close" onclick="closeXpApp('clockApp')">X</div></div>
         <div class="xp-window-body" style="text-align: center;">
             <h2 id="appFullDate" style="color:#0055ea; margin-bottom: 10px;">Tarih Yükleniyor...</h2>
             <h1 id="appFullTime" style="font-size: 2.5rem; margin-bottom: 15px;">00:00:00</h1>
             <p>🌤️ <b>Konum:</b> Denizli / Merkez</p>
-            <p>🌡️ <b>Sıcaklık:</b> 21°C (Parçalı Bulutlu)</p>
+            <p>🌡️ <b>Sıcaklık:</b> 21°C</p>
         </div>
     </div>
 
     <div class="xp-window" id="radioApp" style="top: 15%; left: 30%;">
         <div class="xp-window-titlebar"><span>Winamp Radyo Çalar</span><div class="xp-window-close" onclick="closeXpApp('radioApp')">X</div></div>
         <div class="xp-window-body" style="text-align: center;">
-            <p style="margin-bottom:10px;">2000'ler Retro 8-Bit Kanalı</p>
             <div class="winamp-skin" style="margin-bottom:15px;">
                 <div class="winamp-header"><span>FREKANS: 99.4 FM</span><span id="radioStatus">DURDURULDU</span></div>
                 <div class="winamp-display" id="radioTrackDisplay">01. Şeftali Rüzgarı.mid</div>
@@ -427,13 +436,10 @@
     </div>
 
     <div class="xp-window" id="newsApp" style="top: 25%; left: 25%;">
-        <div class="xp-window-titlebar"><span>Şeftali Studio - Son Dakika</span><div class="xp-window-close" onclick="closeXpApp('newsApp')">X</div></div>
+        <div class="xp-window-titlebar"><span>Şeftali Studio - Son Dakika Haberleri</span><div class="xp-window-close" onclick="closeXpApp('newsApp')">X</div></div>
         <div class="xp-window-body">
-            <h4 style="color:#0055ea; margin-bottom:5px;">🚨 Son Dakika: Pano v5.0 Yayında!</h4>
-            <p style="font-size:0.85rem; margin-bottom:10px;">Retro Tarayıcı modu eklendi. Artık Netscape/IE6 nostaljisi kapıda yaşanıyor.</p>
-            <hr style="border:0; border-top:1px solid #ccc; margin:10px 0;">
-            <h4 style="color:#0055ea; margin-bottom:5px;">🥔 Patates_14 Notu</h4>
-            <p style="font-size:0.85rem;">"Basitlikten doğan eğlence."</p>
+            <h4 style="color:#0055ea; margin-bottom:5px;">🚨 Son Dakika: Cyberpunk Pano Yayında!</h4>
+            <p style="font-size:0.85rem; margin-bottom:10px;">New York sokaklarının neon estetiği kapı monitörüne uyarlandı.</p>
         </div>
     </div>
 
@@ -442,7 +448,7 @@
         <div class="xp-window-body" style="background: #000; color: #00ffcc; font-family: 'Courier New', monospace; height: 220px;">
             <div id="cmdLogs" style="display:flex; flex-direction:column; gap:3px; max-height:160px; overflow-y:auto; font-size:0.8rem;">
                 <div>Microsoft Windows XP [Version 5.1.2600]</div>
-                <div>> Şeftali Studio CMD konsolu hazır. 'yardim' yazın.</div>
+                <div>> 'yardim' yazarak komutları görebilirsin.</div>
             </div>
             <div style="display:flex; gap:5px; margin-top:8px; border-top:1px dashed #00ffcc; padding-top:4px;">
                 <span>C:\></span>
@@ -461,31 +467,25 @@
         <div class="settings-body">
             <p>Geçiş yapmak istediğiniz ekran modunu seçin:</p>
             <div class="settings-option" onclick="switchToPano(1); closeSettings();">
-                <div>
-                    <strong>1. Pano: Frutiger Aero Ana Pano</strong>
-                    <p style="font-size:0.8rem; color:#555;">Cam efektleri, Winamp ve terminal konsolu.</p>
-                </div>
+                <div><strong>1. Pano: Frutiger Aero Ana Pano</strong><p style="font-size:0.8rem; color:#555;">Cam efektleri ve terminal.</p></div>
                 <span>➡️</span>
             </div>
             <div class="settings-option" onclick="switchToPano(2); closeSettings();">
-                <div>
-                    <strong>2. Pano: Windows XP Masaüstü</strong>
-                    <p style="font-size:0.8rem; color:#555;">Saat, Radyo, Oyun, Haberler ve CMD uygulamaları.</p>
-                </div>
+                <div><strong>2. Pano: Windows XP Masaüstü</strong><p style="font-size:0.8rem; color:#555;">Klasik masaüstü ve uygulamalar.</p></div>
                 <span>➡️</span>
             </div>
             <div class="settings-option" onclick="switchToPano(3); closeSettings();">
-                <div>
-                    <strong>3. Pano: 2000'ler Retro Tarayıcı</strong>
-                    <p style="font-size:0.8rem; color:#555;">Internet Explorer 6 temalı web portalı ve sayaç.</p>
-                </div>
+                <div><strong>3. Pano: Retro Tarayıcı Panosu</strong><p style="font-size:0.8rem; color:#555;">Netscape web portalı görünümü.</p></div>
+                <span>➡️</span>
+            </div>
+            <div class="settings-option" onclick="switchToPano(4); closeSettings();">
+                <div><strong>4. Pano: Cyberpunk Neon Sokak</strong><p style="font-size:0.8rem; color:#555;">New York sokak barı ve neon billboard'lar.</p></div>
                 <span>➡️</span>
             </div>
         </div>
     </div>
 
     <script>
-        // Saat ve Tarih Güncelleyici
         function updateAllClocks() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('tr-TR');
@@ -501,22 +501,23 @@
         setInterval(updateAllClocks, 1000);
         updateAllClocks();
 
-        // Pano Değiştirici (1, 2, 3)
         function switchToPano(panoNumber) {
             const p1 = document.getElementById('pano1');
             const p2 = document.getElementById('pano2');
             const p3 = document.getElementById('pano3');
+            const p4 = document.getElementById('pano4');
             
             p1.style.display = 'none';
             p2.style.display = 'none';
             p3.style.display = 'none';
+            p4.style.display = 'none';
 
             if(panoNumber === 1) p1.style.display = 'grid';
             else if(panoNumber === 2) p2.style.display = 'block';
-            else if(panoNumber === 3) p3.style.display = 'block';
+            else if(panoNumber === 3) p3.style.display = 'flex';
+            else if(panoNumber === 4) p4.style.display = 'flex';
         }
 
-        // XP Uygulama Pencereleri Aç/Kapat
         function openXpApp(appId) { document.getElementById(appId).style.display = 'block'; }
         function closeXpApp(appId) { document.getElementById(appId).style.display = 'none'; }
         function toggleXpStartMenu() {
@@ -524,11 +525,9 @@
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Ayarlar Penceresi
         function openSettings() { document.getElementById('settingsModal').style.display = 'block'; }
         function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
 
-        // Terminal Konsol Sistemi (Pano 1)
         const terminalLogs = document.getElementById('terminalLogs');
         function handleTerminalCommand(e) {
             if(e.key === 'Enter') {
@@ -541,7 +540,8 @@
                 else if(cmd === 'pano1') switchToPano(1);
                 else if(cmd === 'pano2') switchToPano(2);
                 else if(cmd === 'pano3') switchToPano(3);
-                else if(cmd === 'yardim') addLog("Komutlar: ayarlar, pano1, pano2, pano3, patates");
+                else if(cmd === 'pano4') switchToPano(4);
+                else if(cmd === 'yardim') addLog("Komutlar: ayarlar, pano1, pano2, pano3, pano4, patates");
                 else if(cmd === 'patates') addLog("🥔 Patates_14 yönetici yetkisi onaylandı.");
                 else if(cmd !== '') addLog(`Bilinmeyen komut: ${cmd}`);
             }
@@ -553,7 +553,6 @@
             terminalLogs.scrollTop = terminalLogs.scrollHeight;
         }
 
-        // CMD Uygulama Konsolu (XP Masaüstü)
         const cmdLogs = document.getElementById('cmdLogs');
         function handleCmdAppInput(e) {
             if(e.key === 'Enter') {
@@ -565,21 +564,21 @@
                 input.value = '';
 
                 const res = document.createElement('div');
-                if(cmd === 'ayarlar') { res.innerText = "Ayarlar penceresi açılıyor..."; openSettings(); }
+                if(cmd === 'ayarlar') { res.innerText = "Ayarlar açılıyor..."; openSettings(); }
                 else if(cmd === 'pano1') { res.innerText = "Pano 1'e geçiliyor..."; switchToPano(1); }
                 else if(cmd === 'pano2') { res.innerText = "Pano 2'ye geçiliyor..."; switchToPano(2); }
-                else if(cmd === 'pano3') { res.innerText = "Retro Tarayıcıya geçiliyor..."; switchToPano(3); }
-                else if(cmd === 'yardim') res.innerText = "Komutlar: ayarlar, pano1, pano2, pano3, cls, patates";
+                else if(cmd === 'pano3') { res.innerText = "Pano 3'e geçiliyor..."; switchToPano(3); }
+                else if(cmd === 'pano4') { res.innerText = "Pano 4'e geçiliyor..."; switchToPano(4); }
+                else if(cmd === 'yardim') res.innerText = "Komutlar: ayarlar, pano1, pano2, pano3, pano4, cls, patates";
                 else if(cmd === 'cls') { cmdLogs.innerHTML = ''; return; }
                 else if(cmd === 'patates') res.innerText = "🥔 Hoş geldin Patates_14!";
-                else res.innerText = `'${cmd}' komutu tanınmıyor.`;
+                else res.innerText = `'${cmd}' tanınmıyor.`;
                 
                 cmdLogs.appendChild(res);
                 cmdLogs.scrollTop = cmdLogs.scrollHeight;
             }
         }
 
-        // Mini Oyun Skoru
         let gameScore = 0;
         function incrementGameScore() {
             gameScore += 10;
@@ -587,7 +586,6 @@
             if(gameScore === 100) alert("Tebrikler! Gizli Şeftali Ustası seviyesine ulaştın! 🏆");
         }
 
-        // Winamp Ses Motoru
         let audioCtx = null;
         let isPlaying = false;
         let musicTimer = null;
@@ -630,7 +628,7 @@
         }
 
         function triggerEasterEgg() {
-            alert("🎉 Zile basıldı! Şeftali kokusu kapıdan içeri yayıldı 🍑");
+            alert("🎉 Zile basıldı! Neon sokaklarında şeftali kokusu yayıldı 🍑");
         }
     </script>
 </body>
